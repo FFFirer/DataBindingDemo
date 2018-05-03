@@ -50,7 +50,7 @@
                             <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
                         <!--聊天列表-->
-                        <ListBox Name="listChat" Grid.Column="0" Grid.RowSpan="4" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="listChat_MouseLeftButtonDown" MouseRightButtonDown="listChat_MouseRightButtonDown">
+                        <ListBox Name="listChat" Grid.Column="0" Grid.RowSpan="4" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="listChat_MouseLeftButtonDown">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,5,0,5" Padding="5" FontSize="16" Text="{Binding Path=sName}">
@@ -65,7 +65,7 @@
                                 </ContextMenu>
                             </ListBox.ContextMenu>
                         </ListBox>
-                        <ListBox Name="MainChat" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" IsSynchronizedWithCurrentItem="True" MouseRightButtonDown="MainChat_MouseRightButtonDown" >
+                        <ListBox Name="MainChat" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" IsSynchronizedWithCurrentItem="True" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Margin="0,5,0,5" Padding="5" FontSize="16" Text="{Binding Path=SenderName}">

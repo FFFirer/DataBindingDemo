@@ -192,10 +192,10 @@ namespace DataBindingDemo
             model.AllChatWaitReads += 1;
         }
 
-        private void MainChat_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
+        //private void MainChat_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        //{
 
-        }
+        //}
 
         private void listChat_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {

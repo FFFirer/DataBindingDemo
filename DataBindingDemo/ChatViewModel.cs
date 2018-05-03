@@ -18,7 +18,9 @@ namespace DataBindingDemo
                 PropertyChanged(this, new PropertyChangedEventArgs(propName));
             }
         }
-
+        /// <summary>
+        /// 所有聊天未读消息
+        /// </summary>
         private int allchatwaitreads { get; set; }
         public int AllChatWaitReads
         {
@@ -30,6 +32,10 @@ namespace DataBindingDemo
                 Notify("allchatwaitreads");
             }
         }
+
+        /// <summary>
+        /// 所有好友添加数
+        /// </summary>
         private int allfriendwaitreads { get; set; }
         public int AllFriendWaitReads
         {
@@ -41,6 +47,9 @@ namespace DataBindingDemo
                 Notify("allfriendwaitreads");
             }
         }
+        /// <summary>
+        /// 所有添加好友数
+        /// </summary>
         private int allnoticewaitreads { get; set; }
         public int AllNoticeWaitReads
         {
@@ -169,51 +178,5 @@ namespace DataBindingDemo
             this.Msg = Msg;
         }
     }
-
-        //每一项聊天
-        //public class Chat : INotifyPropertyChanged
-        //{
-        //    public event PropertyChangedEventHandler PropertyChanged;
-        //    protected void Notify(string propName)
-        //    {
-        //        if(this.PropertyChanged != null)
-        //        {
-        //            PropertyChanged(this, new PropertyChangedEventArgs(propName));
-        //        }
-        //    }
-
-        //    public string SenderId
-        //    {
-        //        get { return SenderId; }
-        //        set
-        //        {
-        //            if(this.SenderId == value) { return; }
-        //            this.SenderId = value;
-        //            Notify("SenderId");
-        //        }
-        //    }
-
-        //    public string ReceiverId
-        //    {
-        //        get { return ReceiverId; }
-        //        set
-        //        {
-        //            if(this.ReceiverId == value) { return; }
-        //            this.ReceiverId = value;
-        //            Notify("ReceiverId");
-        //        }
-        //    }
-
-        //    public string Content
-        //    {
-        //        get { return Content; }
-        //        set
-        //        {
-        //            if(this.Content == value) { return; }
-        //            this.Content = value;
-        //            Notify("Content");
-        //        }
-        //    }
-        //}
 
     }
