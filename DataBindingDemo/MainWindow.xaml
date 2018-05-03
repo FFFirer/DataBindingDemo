@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:DataBindingDemo"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" MinWidth="600" MinHeight="600"  Width="800">
-
+    <Window.Resources>
+        <local:WaitShowConverter x:Key="wsConverter"/>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Tag" Value="{Binding RelativeSource={RelativeSource Self}, Path=SenderId}"/>
+        </Style>
+    </Window.Resources>
     <Grid x:Name="grid">
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -19,7 +24,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Border x:Name="border" Grid.Row="1" Grid.ColumnSpan="3">
-            <TabControl Grid.Row="1" Grid.ColumnSpan="3" TabStripPlacement="Left" HorizontalAlignment="Left" Margin="0" Padding="0" Height="{Binding Height, ElementName=border}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" >
+            <TabControl Name="tabMain" Grid.Row="1" Grid.ColumnSpan="3" TabStripPlacement="Left" HorizontalAlignment="Left" Margin="0" Padding="0" Height="{Binding Height, ElementName=border}" Width="{Binding ActualWidth, ElementName=grid, Mode=OneWay}" >
                 <TabItem Height="98" Width="30" Padding="0" Margin="0" BorderBrush="White">
                     <TabItem.Header>
                         <Grid>
@@ -30,7 +35,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="1" Width="30" Text="聊天" TextWrapping="Wrap" FontSize="20" Padding="5"/>
-                            <Ellipse Name="ellChat" Visibility="Collapsed" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
+                            <Ellipse Name="ellChat" Visibility="{Binding Path=AllChatWaitReads, Converter={StaticResource wsConverter}}" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
                         </Grid>
                     </TabItem.Header>
                     <Grid x:Name="gChat">
@@ -45,23 +50,31 @@
                             <RowDefinition Height="100"/>
                         </Grid.RowDefinitions>
                         <!--聊天列表-->
-                        <ListBox Grid.Column="0" Grid.RowSpan="4" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True">
+                        <ListBox Name="listChat" Grid.Column="0" Grid.RowSpan="4" ItemsSource="{Binding}" IsSynchronizedWithCurrentItem="True" MouseLeftButtonDown="listChat_MouseLeftButtonDown">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Margin="0,5,0,5" Padding="5" FontSize="16" Text="{Binding Path=SenderId}">
+                                    <TextBlock Margin="0,5,0,5" Padding="5" FontSize="16" Text="{Binding Path=sName}">
+                                        <Ellipse Visibility="{Binding Path=WaitReads, Converter={StaticResource wsConverter}, Mode=OneWay}" Fill="Red" Width="7" Height="7" Margin="2" />
+                                        
                                     </TextBlock>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
 
                         </ListBox>
-                        <ListBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="3">
-
+                        <ListBox Name="MainChat" Grid.Column="1" Grid.Row="0" Grid.RowSpan="3" IsSynchronizedWithCurrentItem="True" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Margin="0,5,0,5" Padding="5" FontSize="16" Text="{Binding Path=SenderName}">
+                                        : <TextBlock Text="{Binding Path=Msg}"/>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
-                        <TextBlock Grid.Column="1" Grid.Row="3" Margin="0,0,0,30">
+                        <TextBox Name="txtSend" TextWrapping="Wrap" Grid.Column="1" Grid.Row="3" Margin="0,0,0,30">
 
-                        </TextBlock>
-                        <Button Content="发送" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="70"/>
-                        <Button Content="取消" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,85,5" Width="70"/>
+                        </TextBox>
+                        <Button Name="btnSend" Content="发送" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,5,5" Width="70" Click="btnSend_Click"/>
+                        <Button Name="btnCancel" Content="取消" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,85,5" Width="70" Click="btnCancel_Click"/>
 
                     </Grid>
                 </TabItem>
@@ -75,7 +88,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="1" Width="30" Text="好友" TextWrapping="Wrap" FontSize="20" Padding="5"/>
-                            <Ellipse Name="ellFriend" Visibility="Collapsed" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
+                            <Ellipse Name="ellFriend" Visibility="{Binding Path=AllFriendWaitReads, Converter={StaticResource wsConverter}}" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
                         </Grid>
                     </TabItem.Header>
                     <Grid x:Name="gFriend">
@@ -104,7 +117,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <TextBlock Grid.Row="1" Width="30" Text="通知" TextWrapping="Wrap" FontSize="20" Padding="5"/>
-                            <Ellipse Name="ellNotice" Visibility="Collapsed" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
+                            <Ellipse Name="ellNotice" Visibility="{Binding Path=AllNoticeWaitReads, Converter={StaticResource wsConverter}}" Grid.Row="2"  Fill="Red" Width="7" Height="7" Margin="2"/>
                         </Grid>
                     </TabItem.Header>
                     <Grid x:Name="gNotice">
@@ -133,8 +146,8 @@
                 <Button Name="btnChatDelOne" Margin="5" Content="聊天减一" Click="btnChatDelOne_Click"/>
                 <Button Name="btnFriendDelOne" Margin="5" Content="好友减一" Click="btnFriendDelOne_Click"/>
                 <Button Name="btnNoticeDelOne" Margin="5" Content="通知减一" Click="btnNoticeDelOne_Click"/>
-                <Button Margin="5" Content="测试"/>
-                <Button Margin="5" Content="测试"/>
+                <Button Name="btnWangSendOne" Margin="5" Content="wang发一消息" Click="btnWangSendOne_Click"/>
+                <Button Name="btnMingSendOne" Margin="5" Content="Ming发一消息" Click="btnMingSendOne_Click"/>
                 <Button Margin="5" Content="测试"/>
             </WrapPanel>
         </Grid>
