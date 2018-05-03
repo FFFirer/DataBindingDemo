@@ -84,6 +84,7 @@ namespace DataBindingDemo
             this.gNotice.DataContext = notices;
 
             this.listChat.AddHandler(UIElement.MouseDownEvent, new MouseButtonEventHandler(listChat_MouseLeftButtonDown), true);
+            this.listChat.AddHandler(UIElement.MouseDownEvent, new MouseButtonEventHandler(listChat_MouseRightButtonDown), true);
         }
 
         #region 测试用按钮
@@ -98,7 +99,7 @@ namespace DataBindingDemo
             mt1.Add(pt2);
             mt1.Add(pt3);
 
-            model.AllChatWaitReads += 1;
+            //model.AllChatWaitReads += 1;
             //chats.Add(new Chat { SenderId = "8888", sName = "test", ReceiverId = "1111", Content = "测试测试测试测试测试测试", Msgs = mt1 });
             chats.Add(new Chat("8888", "test", "1111", "测试测试测试测试测试测试", mt1, 0));
         }
@@ -189,6 +190,42 @@ namespace DataBindingDemo
             chat.Msgs.Add(mp);
             chat.WaitReads += 1;
             model.AllChatWaitReads += 1;
+        }
+
+        private void MainChat_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void listChat_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContextMenu context = new ContextMenu();
+            MenuItem removethis = new MenuItem();
+            removethis.Header = "删除此聊天";
+            removethis.Click += Removethis_Click;
+            context.Items.Add(removethis);
+            if (listChat.SelectedIndex == -1)
+            {
+                return;
+            }
+            Chat boxItem = (Chat)listChat.SelectedItem;
+            chating = boxItem.SenderId;
+            MainChat.ItemsSource = boxItem.Msgs;
+            int x = boxItem.WaitReads;
+            model.AllChatWaitReads -= x;
+            boxItem.WaitReads = 0;
+        }
+
+        private void Removethis_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void menu_Click(object sender, RoutedEventArgs e)
+        {
+            Chat chat = (Chat)this.listChat.SelectedItem;
+            model.AllChatWaitReads -= chat.WaitReads;
+            chats.Remove(chat);
         }
     }
 
